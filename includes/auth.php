@@ -1,5 +1,5 @@
 <?php
-require_once 'config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 class Auth {
     private $conn;
@@ -18,11 +18,6 @@ class Auth {
             
             if ($stmt->rowCount() > 0) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                
-                // Debug: Log the password verification attempt
-                error_log("Login attempt for user: " . $username);
-                error_log("Stored hash: " . $user['password']);
-                error_log("Password verification: " . (password_verify($password, $user['password']) ? 'SUCCESS' : 'FAILED'));
                 
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['user_id'] = $user['id'];
